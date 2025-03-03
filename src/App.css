@@ -103,3 +103,28 @@ input:checked + .toggle-slider:before {
   border-bottom: 1px solid #eee;
   padding-bottom: 8px;
 }
+
+/* Group styling with borders */
+.list li[title] + li.group-item:first-of-type {
+  border-top: 1px solid #ddd;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-top: 4px;
+}
+
+.list li.group-item {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.list li.group-item + li:not(.group-item) {
+  margin-top: 12px;
+}
+
+.list li.group-item:last-of-type {
+  border-bottom: 1px solid #ddd;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 8px;
+}
