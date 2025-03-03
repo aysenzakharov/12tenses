@@ -70,66 +70,56 @@ export default () => {
     <App>
       <View>
             <List>
-              <ListItem>
-                <Radio
-                  name="tense"
-                  value="present"
-                  checked={tenseState === Tense.Present}
-                  onChange={() => setTenseState(Tense.Present)}
-                >
-                  Present
-                </Radio>
-                <Radio
-                  name="tense"
-                  value="past"
-                  checked={tenseState === Tense.Past}
-                  onChange={() => setTenseState(Tense.Past)}
-                >
-                  Past
-                </Radio>
-                <Radio
-                  name="tense"
-                  value="future"
-                  checked={tenseState === Tense.Future}
-                  onChange={() => setTenseState(Tense.Future)}
-                >
-                  Future
-                </Radio>
+              <ListItem title="Tense">
+                <div className="segmented segmented-raised">
+                  <button 
+                    className={`button ${tenseState === Tense.Present ? 'button-active' : ''}`}
+                    onClick={() => setTenseState(Tense.Present)}
+                  >
+                    Present
+                  </button>
+                  <button 
+                    className={`button ${tenseState === Tense.Past ? 'button-active' : ''}`}
+                    onClick={() => setTenseState(Tense.Past)}
+                  >
+                    Past
+                  </button>
+                  <button 
+                    className={`button ${tenseState === Tense.Future ? 'button-active' : ''}`}
+                    onClick={() => setTenseState(Tense.Future)}
+                  >
+                    Future
+                  </button>
+                </div>
               </ListItem>
               
-              <ListItem header="Aspect">
-                <Radio
-                  name="aspect"
-                  value="simple"
-                  checked={aspectState === Aspect.Simple}
-                  onChange={() => setAspectState(Aspect.Simple)}
-                >
-                  Simple
-                </Radio>
-                <Radio
-                  name="aspect"
-                  value="continuous"
-                  checked={aspectState === Aspect.Continuous}
-                  onChange={() => setAspectState(Aspect.Continuous)}
-                >
-                  Continuous
-                </Radio>
-                <Radio
-                  name="aspect"
-                  value="perfect"
-                  checked={aspectState === Aspect.Perfect}
-                  onChange={() => setAspectState(Aspect.Perfect)}
-                >
-                  Perfect
-                </Radio>
-                <Radio
-                  name="aspect"
-                  value="perfect-continuous"
-                  checked={aspectState === Aspect.PerfectContinuous}
-                  onChange={() => setAspectState(Aspect.PerfectContinuous)}
-                >
-                  Perfect Continuous
-                </Radio>
+              <ListItem title="Aspect">
+                <div className="segmented segmented-raised">
+                  <button 
+                    className={`button ${aspectState === Aspect.Simple ? 'button-active' : ''}`}
+                    onClick={() => setAspectState(Aspect.Simple)}
+                  >
+                    Simple
+                  </button>
+                  <button 
+                    className={`button ${aspectState === Aspect.Continuous ? 'button-active' : ''}`}
+                    onClick={() => setAspectState(Aspect.Continuous)}
+                  >
+                    Continuous
+                  </button>
+                  <button 
+                    className={`button ${aspectState === Aspect.Perfect ? 'button-active' : ''}`}
+                    onClick={() => setAspectState(Aspect.Perfect)}
+                  >
+                    Perfect
+                  </button>
+                  <button 
+                    className={`button ${aspectState === Aspect.PerfectContinuous ? 'button-active' : ''}`}
+                    onClick={() => setAspectState(Aspect.PerfectContinuous)}
+                  >
+                    Perfect Continuous
+                  </button>
+                </div>
               </ListItem>
               
               <ListItem>

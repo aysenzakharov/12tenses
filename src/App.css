@@ -1,1 +1,40 @@
 /* @import '~framework7/framework7-bundle.css'; */
+
+.segmented {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.segmented-raised {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.button:not(:last-child) {
+  border-right: none;
+}
+
+.button-active {
+  background-color: #007aff;
+  color: white;
+}
+
+.result-block {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
