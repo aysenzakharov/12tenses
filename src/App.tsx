@@ -93,71 +93,73 @@ export default () => {
                 </div>
               </ListItem>
               
-              <ListItem title="Aspect" groupTitle></ListItem>
-              <ListItem className="group-item">
-                <div className="toggle-container">
-                  <span>Perfect</span>
-                  <label className="toggle">
-                    <input 
-                      type="checkbox" 
-                      checked={aspectState === Aspect.Perfect || aspectState === Aspect.PerfectContinuous}
-                      onChange={() => {
-                        if (aspectState === Aspect.Simple) setAspectState(Aspect.Perfect);
-                        else if (aspectState === Aspect.Continuous) setAspectState(Aspect.PerfectContinuous);
-                        else if (aspectState === Aspect.Perfect) setAspectState(Aspect.Simple);
-                        else if (aspectState === Aspect.PerfectContinuous) setAspectState(Aspect.Continuous);
-                      }}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-              </ListItem>
-              
-              <ListItem className="group-item">
-                <div className="toggle-container">
-                  <span>Continuous</span>
-                  <label className="toggle">
-                    <input 
-                      type="checkbox" 
-                      checked={aspectState === Aspect.Continuous || aspectState === Aspect.PerfectContinuous}
-                      onChange={() => {
-                        if (aspectState === Aspect.Simple) setAspectState(Aspect.Continuous);
-                        else if (aspectState === Aspect.Perfect) setAspectState(Aspect.PerfectContinuous);
-                        else if (aspectState === Aspect.Continuous) setAspectState(Aspect.Simple);
-                        else if (aspectState === Aspect.PerfectContinuous) setAspectState(Aspect.Perfect);
-                      }}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-              </ListItem>
-              
-              <ListItem title="Modifiers" groupTitle></ListItem>
-              <ListItem className="group-item">
-                <div className="toggle-container">
-                  <span>Negation</span>
-                  <label className="toggle">
-                    <input 
-                      type="checkbox" 
-                      checked={negationState}
-                      onChange={() => setNegationState(!negationState)}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-              </ListItem>
-              
-              <ListItem className="group-item">
-                <div className="toggle-container">
-                  <span>Question</span>
-                  <label className="toggle">
-                    <input 
-                      type="checkbox" 
-                      checked={questionState}
-                      onChange={() => setQuestionState(!questionState)}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
+              <ListItem title="Aspect & Modifiers">
+                <div className="inline-groups">
+                  <div className="group">
+                    <div className="group-title">Aspect</div>
+                    <div className="toggle-group">
+                      <div className="toggle-container">
+                        <span>Perfect</span>
+                        <label className="toggle">
+                          <input 
+                            type="checkbox" 
+                            checked={aspectState === Aspect.Perfect || aspectState === Aspect.PerfectContinuous}
+                            onChange={() => {
+                              if (aspectState === Aspect.Simple) setAspectState(Aspect.Perfect);
+                              else if (aspectState === Aspect.Continuous) setAspectState(Aspect.PerfectContinuous);
+                              else if (aspectState === Aspect.Perfect) setAspectState(Aspect.Simple);
+                              else if (aspectState === Aspect.PerfectContinuous) setAspectState(Aspect.Continuous);
+                            }}
+                          />
+                          <span className="toggle-slider"></span>
+                        </label>
+                      </div>
+                      <div className="toggle-container">
+                        <span>Continuous</span>
+                        <label className="toggle">
+                          <input 
+                            type="checkbox" 
+                            checked={aspectState === Aspect.Continuous || aspectState === Aspect.PerfectContinuous}
+                            onChange={() => {
+                              if (aspectState === Aspect.Simple) setAspectState(Aspect.Continuous);
+                              else if (aspectState === Aspect.Perfect) setAspectState(Aspect.PerfectContinuous);
+                              else if (aspectState === Aspect.Continuous) setAspectState(Aspect.Simple);
+                              else if (aspectState === Aspect.PerfectContinuous) setAspectState(Aspect.Perfect);
+                            }}
+                          />
+                          <span className="toggle-slider"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group">
+                    <div className="group-title">Modifiers</div>
+                    <div className="toggle-group">
+                      <div className="toggle-container">
+                        <span>Negation</span>
+                        <label className="toggle">
+                          <input 
+                            type="checkbox" 
+                            checked={negationState}
+                            onChange={() => setNegationState(!negationState)}
+                          />
+                          <span className="toggle-slider"></span>
+                        </label>
+                      </div>
+                      <div className="toggle-container">
+                        <span>Question</span>
+                        <label className="toggle">
+                          <input 
+                            type="checkbox" 
+                            checked={questionState}
+                            onChange={() => setQuestionState(!questionState)}
+                          />
+                          <span className="toggle-slider"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </ListItem>
             </List>
