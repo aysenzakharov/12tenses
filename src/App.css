@@ -122,3 +122,32 @@ input:checked + .toggle-slider:before {
   flex-direction: column;
   gap: 16px;
 }
+
+/* Styles for sentence comparison and highlighting */
+.highlighted-word {
+  display: inline-block;
+  background-color: #ffff9c;
+  border-radius: 3px;
+  padding: 0 3px;
+  animation: highlight-pulse 2s ease-in-out;
+}
+
+.previous-sentence {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ccc;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.previous-sentence h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #999;
+}
+
+@keyframes highlight-pulse {
+  0% { background-color: #ffff9c; }
+  50% { background-color: #ffffc5; }
+  100% { background-color: transparent; }
+}

@@ -39,6 +39,46 @@ export default () => {
   const [questionState, setQuestionState] = useState<boolean>(false);
 
   const [sentence, setSentence] = useState<string>("");
+  const [prevSentence, setPrevSentence] = useState<string>("");
+  const [highlightedDiff, setHighlightedDiff] = useState<JSX.Element | null>(null);
+
+
+  // Function to highlight differences between two sentences
+  const highlightDifferences = (oldSentence: string, newSentence: string) => {
+    // Split sentences into words
+    const oldWords = oldSentence.split(/\s+/);
+    const newWords = newSentence.split(/\s+/);
+    
+    // Create arrays to track which words are different
+    const result: JSX.Element[] = [];
+    
+    // Find the longest common subsequence (simplified approach)
+    const maxLength = Math.max(oldWords.length, newWords.length);
+    
+    for (let i = 0; i < maxLength; i++) {
+      if (i >= newWords.length) {
+        // Word was removed
+        break;
+      } else if (i >= oldWords.length || oldWords[i] !== newWords[i]) {
+        // Word was added or changed
+        result.push(
+          <span key={i} className="highlighted-word">{newWords[i]}</span>
+        );
+      } else {
+        // Word is the same
+        result.push(<span key={i}>{newWords[i]}</span>);
+      }
+    }
+    
+    setHighlightedDiff(<>{result.map((element, idx) => 
+      idx < result.length - 1 ? <React.Fragment key={idx}>{element}{' '}</React.Fragment> : element
+    )}</>);
+    
+    // Reset highlight after animation completes
+    setTimeout(() => {
+      setHighlightedDiff(null);
+    }, 2000);
+  };
 
   // Framework7 parameters
   const f7params = {
@@ -47,15 +87,21 @@ export default () => {
   };
 
   useEffect(() => {
-    setSentence(
-      new SentenceBuilder(subjectState, verbState)
-        .setObject(objectState)
-        .setTense(tenseState)
-        .setAspect(aspectState)
-        .setIsNegation(negationState)
-        .setIsQuestion(questionState)
-        .build(),
-    );
+    const newSentence = new SentenceBuilder(subjectState, verbState)
+      .setObject(objectState)
+      .setTense(tenseState)
+      .setAspect(aspectState)
+      .setIsNegation(negationState)
+      .setIsQuestion(questionState)
+      .build();
+    
+    setPrevSentence(sentence);
+    setSentence(newSentence);
+    
+    // Create highlighted diff when sentence changes
+    if (prevSentence && prevSentence !== newSentence) {
+      highlightDifferences(prevSentence, newSentence);
+    }
   }, [
     subjectState,
     verbState,
@@ -166,7 +212,13 @@ export default () => {
           
           <Block strong className="result-block">
             <h2>Generated Sentence:</h2>
-            <p>{sentence}</p>
+            <p>{highlightedDiff || sentence}</p>
+            {prevSentence && prevSentence !== sentence && (
+              <div className="previous-sentence">
+                <h3>Previous:</h3>
+                <p>{prevSentence}</p>
+              </div>
+            )}
           </Block>
       </View>
     </App>
