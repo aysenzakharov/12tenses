@@ -1,66 +1,60 @@
 export class Noun {
   protected word: string;
   private _ipa: string;
-  private _is_definite: boolean;
-  private _is_plural: boolean;
-  private _is_countable: boolean;
-  
-  constructor(word: string, ipa: string, is_definite: boolean, is_plural: boolean, is_countable: boolean) {
-    this.word = word
-    this._ipa = ipa
-    this._is_definite = is_definite
-    this._is_plural = is_plural
-    this._is_countable = is_countable
+  private _isDefinite: boolean;
+  private _isPlural: boolean;
+  private _isCountable: boolean;
+
+  constructor(word: string, ipa: string, isDefinite: boolean, isPlural: boolean, isCountable: boolean) {
+    this.word = word;
+    this._ipa = ipa;
+    this._isDefinite = isDefinite;
+    this._isPlural = isPlural;
+    this._isCountable = isCountable;
   }
 
   public isPlural(): boolean {
-    return this._is_plural
+    return this._isPlural;
   }
 
   public isSingular(): boolean {
-    return !this._is_plural
+    return !this._isPlural;
   }
-  
+
   public asString() {
-    return this._getArticle() + ' ' + this.word
+    const article = this._getArticle();
+    return article ? `${article} ${this.word}` : this.word;
   }
-  
+
   private _getArticle() {
-    if (this._is_definite) {
-      return "the"
+    if (this._isDefinite) {
+      return "the";
     }
-    if (this._is_countable && !this._is_plural) { // a/an
-      if (this._isVowel(this._ipa.charAt(0))) {
-        return "an"
-      }
-      return "a"
+    if (this._isCountable && !this._isPlural) {
+      return this._isVowel(this._ipa) ? "an" : "a";
     }
-    return "" // zero article a.k.a. not applicable
+    return "";
   }
-  
-  private _isVowel(IPASymbol: string) {
-    let englishVowelIPAs = ["ɪ", "ʊ", "ɛ", "ɔ", "ɒ", "ɔ", "æ", "aɪ", "aʊ", "eɪ", "oʊ"]
-    return englishVowelIPAs.includes(IPASymbol)
+
+  private _isVowel(ipa: string) {
+    const englishVowelIPAs = ["aɪ", "aʊ", "eɪ", "oʊ", "ɪ", "ʊ", "ɛ", "ɔ", "ɒ", "æ", "ʌ", "ə", "i", "u", "ɑ", "ɜ", "ɔɪ", "eə", "ʊə"];
+    return englishVowelIPAs.some(vowel => ipa.startsWith(vowel));
   }
-  
 }
 
 enum Person {
-  FIRST = 1,
-  SECOND = 2,
-  THIRD = 3
+  First = 1,
+  Second = 2,
+  Third = 3
 }
 
 export class Subject extends Noun {
   public getPerson() {
-    let subjectLowerCase = this.word.toLowerCase()
-    switch (subjectLowerCase) {
-      case "i":
-        return Person.FIRST
-      case "you":
-        return Person.SECOND
-      default:
-        return Person.THIRD
+    const subjectLower = this.word.toLowerCase();
+    switch (subjectLower) {
+      case "i": return Person.First;
+      case "you": return Person.Second;
+      default: return Person.Third;
     }
   }
 }
@@ -68,261 +62,192 @@ export class Subject extends Noun {
 export class Object extends Noun {}
 
 export class Verb {
-
   private _v1: string;
   private _v2: string;
   private _v3: string;
 
   constructor(v1: string, v2: string, v3: string) {
-    this._v1 = v1
-    this._v2 = v2
-    this._v3 = v3
+    this._v1 = v1;
+    this._v2 = v2;
+    this._v3 = v3;
   }
 
-  public getV1() {
-    return this._v1
-  }
-
-  public getV2() {
-    return this._v2
-  }
-
-  public getV3() {
-    return this._v3
-  }
-
-  public getIng() {
-    return this._v1 + "ing"
-  }
-
+  public getV1() { return this._v1; }
+  public getV2() { return this._v2; }
+  public getV3() { return this._v3; }
+  public getIng() { return `${this._v1}ing`; }
 }
 
 export enum Tense {
-  PRESENT,
-  PAST,
-  FUTURE
+  Present,
+  Past,
+  Future
 }
 
 export enum Aspect {
-  SIMPLE,
-  PERFECT,
-  CONTINUOUS,
-  PERFECT_CONTINUOUS,
+  Simple,
+  Perfect,
+  Continuous,
+  PerfectContinuous,
 }
 
 enum ModalVerb {
-  CAN = "can",
-  COULD = "could",
-  MAY = "may",
-  MIGHT = "migth",
-  SHALL = "shall",
-  SHOULD = "should",
-  WILL = "will",
-  WOULD = "would",
-  MUST = "must",
+  Can = "can",
+  Could = "could",
+  May = "may",
+  Might = "might",
+  Shall = "shall",
+  Should = "should",
+  Will = "will",
+  Would = "would",
+  Must = "must",
 }
 
 export class Sentence {
+  private _subject: Subject;
+  private _verb: Verb;
 
-  private _subject: Subject
-  private _verb: Verb
-  
   constructor(subject: Subject, verb: Verb) {
-    this._subject = subject
-    this._verb = verb
-  }
-  
-  public asString() {
-    return this._subject.asString() + " " + this._verb.getV1()
+    this._subject = subject;
+    this._verb = verb;
   }
 
+  public asString() {
+    return `${this._subject.asString()} ${this._verb.getV1()}`;
+  }
 }
 
 export class SentenceBuilder {
+  private _subject: Subject;
+  private _verb: Verb;
+  private _object: Object | null = null;
+  private _tense: Tense = Tense.Present;
+  private _aspect: Aspect = Aspect.Simple;
+  private _isQuestion = false;
+  private _isNegation = false;
 
-  private _subject: Subject
-  private _verb: Verb
-  private _object: Object|null = null
-  private _tense: Tense = Tense.PRESENT
-  private _aspect: Aspect = Aspect.SIMPLE
-  private _isQuestion: boolean = false
-  private _isNegation: boolean = false
-  
   constructor(subject: Subject, verb: Verb) {
-    this._subject = subject
-    this._verb = verb
+    this._subject = subject;
+    this._verb = verb;
   }
 
-  public setTense(tense: Tense) {
-    this._tense = tense
-    return this
-  }
-  
-  public setAspect(aspect: Aspect) {
-    this._aspect = aspect
-    return this
+  setTense(tense: Tense) {
+    this._tense = tense;
+    return this;
   }
 
-  public setIsQuestion(isQuestion: boolean) {
-    this._isQuestion = isQuestion
-    return this
+  setAspect(aspect: Aspect) {
+    this._aspect = aspect;
+    return this;
   }
 
-  public setIsNegation(isNegation: boolean) {
-    this._isNegation = isNegation
-    return this
+  setIsQuestion(isQuestion: boolean) {
+    this._isQuestion = isQuestion;
+    return this;
   }
 
-  public setObject(object: Object) {
-    this._object = object
-    return this
+  setIsNegation(isNegation: boolean) {
+    this._isNegation = isNegation;
+    return this;
+  }
+
+  setObject(object: Object) {
+    this._object = object;
+    return this;
   }
 
   private _getToDo() {
-    let isToDoCondition = (
-      [Tense.PRESENT, Tense.PAST].includes(this._tense) &&
-      this._aspect === Aspect.SIMPLE &&
-      (this._isNegation || this._isQuestion)
-    )
-    if (!isToDoCondition) return ""
-    
-    let person = this._subject.getPerson()
-    
-    if (this._tense === Tense.PAST) return "did"
-    if (
-      this._tense === Tense.PRESENT &&
-      person === Person.THIRD &&
-      this._subject.isSingular()
-    ) {
-      return "does"
-    }
-    return "do"
+    const needsDo = [Tense.Present, Tense.Past].includes(this._tense) &&
+      this._aspect === Aspect.Simple &&
+      (this._isNegation || this._isQuestion);
+
+    if (!needsDo) return "";
+
+    if (this._tense === Tense.Past) return "did";
+    if (this._tense === Tense.Present &&
+        this._subject.getPerson() === Person.Third &&
+        this._subject.isSingular()) return "does";
+    return "do";
   }
 
   private _getToHave() {
-    let isToHaveCondition = [Aspect.PERFECT, Aspect.PERFECT_CONTINUOUS].includes(this._aspect)
-    if (!isToHaveCondition) return ""
-    
-    let person = this._subject.getPerson()
-    
-    if (
-      this._tense === Tense.PRESENT && this._aspect === Aspect.PERFECT &&
-      person === Person.THIRD &&
-      this._subject.isSingular()
-    ) {
-      return "has"
-    }
-    if (this._tense === Tense.PAST) {
-      return "had"
-    }
-    return "have"
+    if (![Aspect.Perfect, Aspect.PerfectContinuous].includes(this._aspect)) return "";
+
+    if (this._tense === Tense.Past) return "had";
+    if (this._tense === Tense.Present &&
+        this._subject.getPerson() === Person.Third &&
+        this._subject.isSingular()) return "has";
+    return "have";
   }
 
   private _getToBe() {
-    let isToBeCondition = [Aspect.CONTINUOUS, Aspect.PERFECT_CONTINUOUS].includes(this._aspect)
-    if (!isToBeCondition) return ""
-    
-    let person = this._subject.getPerson()
+    if (![Aspect.Continuous, Aspect.PerfectContinuous].includes(this._aspect)) return "";
 
-    if (this._aspect === Aspect.CONTINUOUS) {
+    if (this._aspect === Aspect.Continuous) {
       switch (this._tense) {
-        case Tense.PRESENT:
-          if (this._subject.isSingular()) {
-            switch (person) {
-              case Person.FIRST:
-                return "am"
-              case Person.THIRD:
-                return "is"
-            }
-          }
-          return "are"
-        case Tense.PAST:
-          if (this._subject.isSingular() && [Person.FIRST, Person.THIRD].includes(person)) {
-            return "was"
-          }
-          return "were"
-        case Tense.FUTURE:
-          return "be"
+        case Tense.Present:
+          return this._subject.isSingular()
+            ? (this._subject.getPerson() === Person.First ? "am" : "is")
+            : "are";
+        case Tense.Past:
+          return this._subject.isSingular() ? "was" : "were";
+        case Tense.Future:
+          return "be";
       }
     }
-    return "been"
+    return "been";
   }
 
   private _getAuxiliary() {
-    let auxiliary: string[] = []
-
-    if (this._tense === Tense.FUTURE) {
-      auxiliary.push(this._getModalVerb())
-    }
+    const auxiliary: string[] = [];
+    if (this._tense === Tense.Future) auxiliary.push(ModalVerb.Will);
 
     switch (this._aspect) {
-      case Aspect.SIMPLE:
-        auxiliary.push(this._getToDo())
-        break
-      case Aspect.PERFECT:
-        auxiliary.push(this._getToHave())
-        break
-      case Aspect.CONTINUOUS:
-        auxiliary.push(this._getToBe())
-        break
-      case Aspect.PERFECT_CONTINUOUS:
-        auxiliary.push(this._getToHave())
-        auxiliary.push(this._getToBe())
-        break
+      case Aspect.Simple:
+        auxiliary.push(this._getToDo());
+        break;
+      case Aspect.Perfect:
+        auxiliary.push(this._getToHave());
+        break;
+      case Aspect.Continuous:
+        auxiliary.push(this._getToBe());
+        break;
+      case Aspect.PerfectContinuous:
+        auxiliary.push(this._getToHave(), this._getToBe());
+        break;
     }
-    
-    if (this._isNegation) {
-      auxiliary.splice(1, 0, "not")
-    }
-    
-    return auxiliary
+
+    if (this._isNegation) auxiliary.splice(1, 0, "not");
+    return auxiliary.filter(x => x);
   }
 
   private _getVerb() {
-    let person = this._subject.getPerson()
-    switch (this._aspect) {
-      case Aspect.SIMPLE:
-        if (!this._isNegation && !this._isQuestion) {
-          if (
-            this._tense === Tense.PRESENT &&
-            person === Person.THIRD &&
-            this._subject.isSingular()
-          ) {
-            return this._verb.getV1() + "s"
-          }
-          if (this._tense === Tense.PAST) return this._verb.getV2()
-        }
-        return this._verb.getV1()
-      case Aspect.PERFECT:
-        return this._verb.getV3()
-      default:
-        return this._verb.getIng()
+    const baseVerb = this._verb.getV1();
+    if (this._aspect === Aspect.Simple && !this._isNegation && !this._isQuestion) {
+      if (this._tense === Tense.Present &&
+          this._subject.getPerson() === Person.Third &&
+          this._subject.isSingular()) return `${baseVerb}s`;
+      if (this._tense === Tense.Past) return this._verb.getV2();
     }
-  }
-
-  private _getModalVerb() {
-    return ModalVerb.WILL.toString()
+    return this._aspect === Aspect.Perfect ? this._verb.getV3() : `${baseVerb}ing`;
   }
 
   public build() {
-    let sentence = []
-    
-    sentence.push(this._subject.asString())
-    this._getAuxiliary().forEach(auxiliary => sentence.push(auxiliary))
-    
-    if (this._isQuestion) {
-      let temp = sentence[0]
-      sentence[0] = sentence[1]
-      sentence[1] = temp
+    const parts = [
+      this._subject.asString(),
+      ...this._getAuxiliary(),
+      this._getVerb(),
+      this._object?.asString()
+    ].filter(x => x);
+
+    if (this._isQuestion && parts.length > 1) {
+      [parts[0], parts[1]] = [parts[1], parts[0]];
     }
 
-    sentence.push(this._getVerb())
-    
-    if (this._object) sentence.push(this._object.asString())
+    let sentence = parts.join(' ');
+    if (this._isQuestion) sentence += '?';
+    if (!sentence.endsWith('?')) sentence += '.';
 
-    if (this._isQuestion) sentence.push("?")
-    
-    return sentence.join(" ").replace(/^\w/, c => c.toUpperCase())
+    return sentence[0].toUpperCase() + sentence.slice(1);
   }
-
 }

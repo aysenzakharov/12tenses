@@ -24,17 +24,17 @@ import {
 
 export default () => {
   const [subjectState, setSubjectState] = useState<Subject>(
-    new Subject("I", "ɪ", true, true, true),
+    new Subject("You", "juː", false, false, false),
   );
   const [verbState, setVerbState] = useState<Verb>(
     new Verb("eat", "ate", "eaten"),
   );
   const [objectState, setObjectState] = useState<Object>(
-    new Object("bowl", "bɔl", false, false, false),
+    new Object("apple", "æpəl", false, false, true),
   );
 
-  const [tenseState, setTenseState] = useState<Tense>(Tense.PRESENT);
-  const [aspectState, setAspectState] = useState<Aspect>(Aspect.SIMPLE);
+  const [tenseState, setTenseState] = useState<Tense>(Tense.Present);
+  const [aspectState, setAspectState] = useState<Aspect>(Aspect.Simple);
   const [negationState, setNegationState] = useState<boolean>(false);
   const [questionState, setQuestionState] = useState<boolean>(false);
 
@@ -74,24 +74,24 @@ export default () => {
                 <Radio
                   name="tense"
                   value="present"
-                  checked={tenseState === Tense.PRESENT}
-                  onChange={() => setTenseState(Tense.PRESENT)}
+                  checked={tenseState === Tense.Present}
+                  onChange={() => setTenseState(Tense.Present)}
                 >
                   Present
                 </Radio>
                 <Radio
                   name="tense"
                   value="past"
-                  checked={tenseState === Tense.PAST}
-                  onChange={() => setTenseState(Tense.PAST)}
+                  checked={tenseState === Tense.Past}
+                  onChange={() => setTenseState(Tense.Past)}
                 >
                   Past
                 </Radio>
                 <Radio
                   name="tense"
                   value="future"
-                  checked={tenseState === Tense.FUTURE}
-                  onChange={() => setTenseState(Tense.FUTURE)}
+                  checked={tenseState === Tense.Future}
+                  onChange={() => setTenseState(Tense.Future)}
                 >
                   Future
                 </Radio>
@@ -101,32 +101,32 @@ export default () => {
                 <Radio
                   name="aspect"
                   value="simple"
-                  checked={aspectState === Aspect.SIMPLE}
-                  onChange={() => setAspectState(Aspect.SIMPLE)}
+                  checked={aspectState === Aspect.Simple}
+                  onChange={() => setAspectState(Aspect.Simple)}
                 >
                   Simple
                 </Radio>
                 <Radio
                   name="aspect"
                   value="continuous"
-                  checked={aspectState === Aspect.CONTINUOUS}
-                  onChange={() => setAspectState(Aspect.CONTINUOUS)}
+                  checked={aspectState === Aspect.Continuous}
+                  onChange={() => setAspectState(Aspect.Continuous)}
                 >
                   Continuous
                 </Radio>
                 <Radio
                   name="aspect"
                   value="perfect"
-                  checked={aspectState === Aspect.PERFECT}
-                  onChange={() => setAspectState(Aspect.PERFECT)}
+                  checked={aspectState === Aspect.Perfect}
+                  onChange={() => setAspectState(Aspect.Perfect)}
                 >
                   Perfect
                 </Radio>
                 <Radio
                   name="aspect"
                   value="perfect-continuous"
-                  checked={aspectState === Aspect.PERFECT_CONTINUOUS}
-                  onChange={() => setAspectState(Aspect.PERFECT_CONTINUOUS)}
+                  checked={aspectState === Aspect.PerfectContinuous}
+                  onChange={() => setAspectState(Aspect.PerfectContinuous)}
                 >
                   Perfect Continuous
                 </Radio>
@@ -151,7 +151,7 @@ export default () => {
               </ListItem>
             </List>
           
-          <Block strongText className="result-block">
+          <Block strong className="result-block">
             <h2>Generated Sentence:</h2>
             <p>{sentence}</p>
           </Block>
