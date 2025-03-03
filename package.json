@@ -19,5 +19,9 @@
     "react-dom": "^18.2.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.4"
+  },
+  "dependencies": {
+    "framework7": "^8.3.4",
+    "framework7-react": "^8.3.4"
   }
 }

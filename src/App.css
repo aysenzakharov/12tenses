@@ -1,2 +1,6 @@
 main {
 }
+
+@import url('framework7/css/framework7.css');
+
+@import url('framework7-react/css/framework7-react.css');
