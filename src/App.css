@@ -1,5 +1,5 @@
 
-@import url('framework7/framework7-bundle.css');
+@import url('@framework7/framework7-bundle.css');
 
 body {
   margin: 0;
