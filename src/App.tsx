@@ -93,32 +93,41 @@ export default () => {
                 </div>
               </ListItem>
               
-              <ListItem title="Aspect">
-                <div className="segmented segmented-raised">
-                  <button 
-                    className={`button ${aspectState === Aspect.Simple ? 'button-active' : ''}`}
-                    onClick={() => setAspectState(Aspect.Simple)}
-                  >
-                    Simple
-                  </button>
-                  <button 
-                    className={`button ${aspectState === Aspect.Continuous ? 'button-active' : ''}`}
-                    onClick={() => setAspectState(Aspect.Continuous)}
-                  >
-                    Continuous
-                  </button>
-                  <button 
-                    className={`button ${aspectState === Aspect.Perfect ? 'button-active' : ''}`}
-                    onClick={() => setAspectState(Aspect.Perfect)}
-                  >
-                    Perfect
-                  </button>
-                  <button 
-                    className={`button ${aspectState === Aspect.PerfectContinuous ? 'button-active' : ''}`}
-                    onClick={() => setAspectState(Aspect.PerfectContinuous)}
-                  >
-                    Perfect Continuous
-                  </button>
+              <ListItem>
+                <div className="toggle-container">
+                  <span>Perfect</span>
+                  <label className="toggle">
+                    <input 
+                      type="checkbox" 
+                      checked={aspectState === Aspect.Perfect || aspectState === Aspect.PerfectContinuous}
+                      onChange={() => {
+                        if (aspectState === Aspect.Simple) setAspectState(Aspect.Perfect);
+                        else if (aspectState === Aspect.Continuous) setAspectState(Aspect.PerfectContinuous);
+                        else if (aspectState === Aspect.Perfect) setAspectState(Aspect.Simple);
+                        else if (aspectState === Aspect.PerfectContinuous) setAspectState(Aspect.Continuous);
+                      }}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
+                </div>
+              </ListItem>
+              
+              <ListItem>
+                <div className="toggle-container">
+                  <span>Continuous</span>
+                  <label className="toggle">
+                    <input 
+                      type="checkbox" 
+                      checked={aspectState === Aspect.Continuous || aspectState === Aspect.PerfectContinuous}
+                      onChange={() => {
+                        if (aspectState === Aspect.Simple) setAspectState(Aspect.Continuous);
+                        else if (aspectState === Aspect.Perfect) setAspectState(Aspect.PerfectContinuous);
+                        else if (aspectState === Aspect.Continuous) setAspectState(Aspect.Simple);
+                        else if (aspectState === Aspect.PerfectContinuous) setAspectState(Aspect.Perfect);
+                      }}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
                 </div>
               </ListItem>
               
