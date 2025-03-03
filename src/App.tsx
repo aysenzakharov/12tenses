@@ -123,21 +123,31 @@ export default () => {
               </ListItem>
               
               <ListItem>
-                <Checkbox
-                  checked={negationState}
-                  onChange={() => setNegationState(!negationState)}
-                >
-                  Negation
-                </Checkbox>
+                <div className="toggle-container">
+                  <span>Negation</span>
+                  <label className="toggle">
+                    <input 
+                      type="checkbox" 
+                      checked={negationState}
+                      onChange={() => setNegationState(!negationState)}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
+                </div>
               </ListItem>
               
               <ListItem>
-                <Checkbox
-                  checked={questionState}
-                  onChange={() => setQuestionState(!questionState)}
-                >
-                  Question
-                </Checkbox>
+                <div className="toggle-container">
+                  <span>Question</span>
+                  <label className="toggle">
+                    <input 
+                      type="checkbox" 
+                      checked={questionState}
+                      onChange={() => setQuestionState(!questionState)}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
+                </div>
               </ListItem>
             </List>
           
