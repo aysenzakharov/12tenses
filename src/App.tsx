@@ -1,19 +1,17 @@
-
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import {
-  App as F7App,
-  View,
-  Page,
-  Navbar,
-  Block,
-  List,
-  ListItem,
-  Radio,
-  Checkbox,
-  f7,
-} from "framework7-react";
+
+// Import Framework7 Core
+import Framework7 from 'framework7/lite';
+/*
+Or import bundle with all components:
 import Framework7 from 'framework7/lite-bundle';
+*/
+
+// Import Framework7 React
+import Framework7React, { App, View, List, ListItem, Radio, Checkbox, Block } from 'framework7-react';
+// Init plugin
+Framework7.use(Framework7React)
 
 import {
   Subject,
@@ -24,10 +22,7 @@ import {
   SentenceBuilder,
 } from "./English";
 
-// Initialize Framework7
-Framework7.use();
-
-export default function App() {
+export default () => {
   const [subjectState, setSubjectState] = useState<Subject>(
     new Subject("I", "ɪ", true, true, true),
   );
@@ -72,12 +67,10 @@ export default function App() {
   ]);
 
   return (
-    <F7App {...f7params}>
-      <View main>
-        <Page>
-          <Block>
+    <App>
+      <View>
             <List>
-              <ListItem header="Tense">
+              <ListItem>
                 <Radio
                   name="tense"
                   value="present"
@@ -157,14 +150,12 @@ export default function App() {
                 </Checkbox>
               </ListItem>
             </List>
-          </Block>
           
           <Block strongText className="result-block">
             <h2>Generated Sentence:</h2>
             <p>{sentence}</p>
           </Block>
-        </Page>
       </View>
-    </F7App>
+    </App>
   );
 }
