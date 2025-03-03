@@ -93,7 +93,8 @@ export default () => {
                 </div>
               </ListItem>
               
-              <ListItem>
+              <ListItem title="Aspect" groupTitle></ListItem>
+              <ListItem className="group-item">
                 <div className="toggle-container">
                   <span>Perfect</span>
                   <label className="toggle">
@@ -112,7 +113,7 @@ export default () => {
                 </div>
               </ListItem>
               
-              <ListItem>
+              <ListItem className="group-item">
                 <div className="toggle-container">
                   <span>Continuous</span>
                   <label className="toggle">
@@ -131,7 +132,8 @@ export default () => {
                 </div>
               </ListItem>
               
-              <ListItem>
+              <ListItem title="Modifiers" groupTitle></ListItem>
+              <ListItem className="group-item">
                 <div className="toggle-container">
                   <span>Negation</span>
                   <label className="toggle">
@@ -145,7 +147,7 @@ export default () => {
                 </div>
               </ListItem>
               
-              <ListItem>
+              <ListItem className="group-item">
                 <div className="toggle-container">
                   <span>Question</span>
                   <label className="toggle">
