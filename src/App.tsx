@@ -1,15 +1,19 @@
+
 import "./App.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  App,
+  App as F7App,
   View,
   Page,
   Navbar,
-  Toolbar,
-  Link,
+  Block,
+  List,
+  ListItem,
   Radio,
   Checkbox,
+  f7,
 } from "framework7-react";
+import Framework7 from 'framework7/lite-bundle';
 
 import {
   Subject,
@@ -20,7 +24,10 @@ import {
   SentenceBuilder,
 } from "./English";
 
-export default () => {
+// Initialize Framework7
+Framework7.use();
+
+export default function App() {
   const [subjectState, setSubjectState] = useState<Subject>(
     new Subject("I", "ɪ", true, true, true),
   );
@@ -36,7 +43,13 @@ export default () => {
   const [negationState, setNegationState] = useState<boolean>(false);
   const [questionState, setQuestionState] = useState<boolean>(false);
 
-  const [sentence, setSentence] = useState<string>();
+  const [sentence, setSentence] = useState<string>("");
+
+  // Framework7 parameters
+  const f7params = {
+    name: 'English Sentence Builder',
+    theme: 'auto',
+  };
 
   useEffect(() => {
     setSentence(
@@ -59,84 +72,99 @@ export default () => {
   ]);
 
   return (
-    // Main Framework7 App component where we pass Framework7 params
-    <App theme="auto" name="My App">
-
-      {/* Your main view, should have "main" prop */}
+    <F7App {...f7params}>
       <View main>
-        {/*  Initial Page */}
         <Page>
-          <Radio
-            name="tense"
-            value={tenseState}
-            checked={tenseState === Tense.PRESENT}
-            onChange={(e) => setTenseState(e.value)}
-          >
-            Present
-          </Radio>
-          <Radio
-            name="tense"
-            value={tenseState}
-            checked={tenseState === Tense.PAST}
-            onChange={(e) => setTenseState(e.value)}
-          >
-            Past
-          </Radio>
-          <Radio
-            name="tense"
-            value={tenseState}
-            checked={tenseState === Tense.FUTURE}
-            onChange={(e) => setTenseState(e.value)}
-          >
-            Future
-          </Radio>
-          <Radio
-            name="aspect"
-            value={aspectState}
-            checked={aspectState === Aspect.SIMPLE}
-            onChange={(e) => setAspectState(e.value)}
-          >
-            Simple
-          </Radio>
-          <Radio
-            name="aspect"
-            value={Aspect.CONTINUOUS}
-            checked={aspectState === Aspect.CONTINUOUS}
-            onChange={(e) => setAspectState(e.value)}
-          >
-            Continuous
-          </Radio>
-          <Radio
-            name="aspect"
-            value={Aspect.PERFECT}
-            checked={aspectState === Aspect.PERFECT}
-            onChange={(e) => setAspectState(e.value)}
-          >
-            Perfect
-          </Radio>
-          <Radio
-            name="aspect"
-            value={Aspect.PERFECT_CONTINUOUS}
-            checked={aspectState === Aspect.PERFECT_CONTINUOUS}
-            onChange={(e) => setAspectState(e.value)}
-          >
-            Perfect Continuous
-          </Radio>
-          <Checkbox
-            checked={negationState}
-            onChange={(e) => setNegationState(e.target.checked)}
-          >
-            Negation
-          </Checkbox>
-          <Checkbox
-            checked={questionState}
-            onChange={(e) => setQuestionState(e.target.checked)}
-          >
-            Question
-          </Checkbox>
-          <p>{sentence}</p>
+          <Block>
+            <List>
+              <ListItem header="Tense">
+                <Radio
+                  name="tense"
+                  value="present"
+                  checked={tenseState === Tense.PRESENT}
+                  onChange={() => setTenseState(Tense.PRESENT)}
+                >
+                  Present
+                </Radio>
+                <Radio
+                  name="tense"
+                  value="past"
+                  checked={tenseState === Tense.PAST}
+                  onChange={() => setTenseState(Tense.PAST)}
+                >
+                  Past
+                </Radio>
+                <Radio
+                  name="tense"
+                  value="future"
+                  checked={tenseState === Tense.FUTURE}
+                  onChange={() => setTenseState(Tense.FUTURE)}
+                >
+                  Future
+                </Radio>
+              </ListItem>
+              
+              <ListItem header="Aspect">
+                <Radio
+                  name="aspect"
+                  value="simple"
+                  checked={aspectState === Aspect.SIMPLE}
+                  onChange={() => setAspectState(Aspect.SIMPLE)}
+                >
+                  Simple
+                </Radio>
+                <Radio
+                  name="aspect"
+                  value="continuous"
+                  checked={aspectState === Aspect.CONTINUOUS}
+                  onChange={() => setAspectState(Aspect.CONTINUOUS)}
+                >
+                  Continuous
+                </Radio>
+                <Radio
+                  name="aspect"
+                  value="perfect"
+                  checked={aspectState === Aspect.PERFECT}
+                  onChange={() => setAspectState(Aspect.PERFECT)}
+                >
+                  Perfect
+                </Radio>
+                <Radio
+                  name="aspect"
+                  value="perfect-continuous"
+                  checked={aspectState === Aspect.PERFECT_CONTINUOUS}
+                  onChange={() => setAspectState(Aspect.PERFECT_CONTINUOUS)}
+                >
+                  Perfect Continuous
+                </Radio>
+              </ListItem>
+              
+              <ListItem>
+                <Checkbox
+                  checked={negationState}
+                  onChange={() => setNegationState(!negationState)}
+                >
+                  Negation
+                </Checkbox>
+              </ListItem>
+              
+              <ListItem>
+                <Checkbox
+                  checked={questionState}
+                  onChange={() => setQuestionState(!questionState)}
+                >
+                  Question
+                </Checkbox>
+              </ListItem>
+            </List>
+          </Block>
+          
+          <Block strongText className="result-block">
+            <h2>Generated Sentence:</h2>
+            <p>{sentence}</p>
+          </Block>
         </Page>
       </View>
-    </App>
+    </F7App>
   );
-};
+}
