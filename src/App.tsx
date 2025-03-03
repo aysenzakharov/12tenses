@@ -49,23 +49,30 @@ export default () => {
     const oldWords = oldSentence.split(/\s+/);
     const newWords = newSentence.split(/\s+/);
     
-    // Create arrays to track which words are different
     const result: JSX.Element[] = [];
     
-    // Find the longest common subsequence (simplified approach)
-    const maxLength = Math.max(oldWords.length, newWords.length);
+    // Find which words changed by comparing old and new
+    const changedIndices = new Set<number>();
     
-    for (let i = 0; i < maxLength; i++) {
-      if (i >= newWords.length) {
-        // Word was removed
-        break;
-      } else if (i >= oldWords.length || oldWords[i] !== newWords[i]) {
-        // Word was added or changed
+    // First identify changes (additions, removals, replacements)
+    for (let i = 0; i < Math.max(oldWords.length, newWords.length); i++) {
+      const oldWord = i < oldWords.length ? oldWords[i] : null;
+      const newWord = i < newWords.length ? newWords[i] : null;
+      
+      if (oldWord !== newWord) {
+        changedIndices.add(i);
+      }
+    }
+    
+    // Now create the result with highlighted changed words
+    for (let i = 0; i < newWords.length; i++) {
+      if (changedIndices.has(i)) {
+        // This word changed - highlight it
         result.push(
           <span key={i} className="highlighted-word">{newWords[i]}</span>
         );
       } else {
-        // Word is the same
+        // This word didn't change
         result.push(<span key={i}>{newWords[i]}</span>);
       }
     }
