@@ -13,6 +13,14 @@ export class Noun {
     this._isCountable = isCountable;
   }
 
+  public getWord() {
+    return this.word;
+  }
+
+  public getIPA(): string {
+    return this._ipa;
+  }
+
   public isPlural(): boolean {
     return this._isPlural;
   }
@@ -21,24 +29,32 @@ export class Noun {
     return !this._isPlural;
   }
 
+  public isDefinite(): boolean {
+    return this._isDefinite;
+  }
+
+  public isCountable(): boolean {
+    return this._isCountable;
+  }
+
   public asString() {
-    const article = this._getArticle();
+    const article = this.getArticle();
     return article ? `${article} ${this.word}` : this.word;
   }
 
-  private _getArticle() {
+  public getArticle() {
     if (this._isDefinite) {
       return "the";
     }
     if (this._isCountable && !this._isPlural) {
-      return this._isVowel(this._ipa) ? "an" : "a";
+      return this.isVowel() ? "an" : "a";
     }
     return "";
   }
 
-  private _isVowel(ipa: string) {
+  public isVowel() {
     const englishVowelIPAs = ["aɪ", "aʊ", "eɪ", "oʊ", "ɪ", "ʊ", "ɛ", "ɔ", "ɒ", "æ", "ʌ", "ə", "i", "u", "ɑ", "ɜ", "ɔɪ", "eə", "ʊə"];
-    return englishVowelIPAs.some(vowel => ipa.startsWith(vowel));
+    return englishVowelIPAs.some(vowel => this._ipa.startsWith(vowel));
   }
 }
 
@@ -66,10 +82,10 @@ export class Verb {
   private _v2: string;
   private _v3: string;
 
-  constructor(v1: string, v2: string, v3: string) {
-    this._v1 = v1;
-    this._v2 = v2;
-    this._v3 = v3;
+  constructor(baseForm: string, pastForm: string, pastParticiple: string) {
+    this._v1 = baseForm;
+    this._v2 = pastForm;
+    this._v3 = pastParticiple;
   }
 
   public getV1() { return this._v1; }
